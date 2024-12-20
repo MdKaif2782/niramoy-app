@@ -32,9 +32,9 @@ const DietItem = (props: DietItemProps) => {
                         <Text variant="bodySmall">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Text>
                         <View className="mt-4 flex-row justify-between">
                             <Button mode="contained" className="justify-center" onPress={() => { /* Mark as done logic */ }}>
-                                <Text variant="bodySmall" className="text-white">Mark as done</Text>
+                                <Text variant="bodyMedium" className="text-white">Mark as done</Text>
                             </Button>
-                            <Button mode="outlined" onPress={() => { /* Watch the recipe on YouTube logic */ }}>Watch recipe</Button>
+                            <Button mode="outlined" onPress={() => { /* Watch the recipe on YouTube logic */ }}>Watch Video</Button>
                         </View>
                     </View>
                 )}
