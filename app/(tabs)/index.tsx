@@ -43,8 +43,12 @@ export default function HomeScreen() {
             <DietItem mealType="Dinner" mealDescription="2 Roti, 1 Sabji, 1 Dal" imageUrl="https://cdn.pixabay.com/photo/2016/11/18/17/42/barbecue-1836053_960_720.jpg"/>
         </View>
 
-
-
+        <View className="mt-4"/>
+        <View className="shadow-sm p-4 rounded-xl w-full h-fit flex-col bg-white shadow-black">
+            <Text variant="labelLarge" style={{color:colors.primary}}>Today's GYM chart</Text>
+            <DietItem isCompleted={true} mealType="Pilates Studio" mealDescription="Core-strengthening and posture-improving exercises." imageUrl="https://www.glofox.com/wp-content/uploads/2019/08/shutterstock_289744808.jpg"/>
+            <DietItem mealType="Yoga Studio" mealDescription="Gentle stretches for spinal alignment." imageUrl="https://youfit.com/wp-content/uploads/2024/06/YouFit-06-20-22-282-Edit.jpg"/>
+        </View>
       </View>
     </ScrollView>
   );
