@@ -8,15 +8,11 @@ import DietItem from "@/components/dashboard/diet-item";
 import MoodCard from "@/components/dashboard/mood-card";
 export interface HomeUserState {
   name: string | null;
-  location: string | null;
-  donor: boolean;
 }
 
 export default function HomeScreen() {
   const [user, setuser] = useState<HomeUserState>({
     name: "Kaif",
-    location: "",
-    donor: false
   });
 
   const {colors} = useTheme();
