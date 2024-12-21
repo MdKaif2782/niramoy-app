@@ -9,3 +9,8 @@ export function openInBrowser(url:string){
       }
     });
   }
+
+  export function ytLinkToThumbnail(url:string){
+    const videoId = url.split("v=")[1];
+    return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
+  }

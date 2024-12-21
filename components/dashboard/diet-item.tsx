@@ -4,8 +4,9 @@ import { View, Image, TouchableOpacity } from "react-native";
 import { Check, SquareCheckBig, Youtube } from "lucide-react-native";
 
 interface DietItemProps {
-    mealType: string;
-    mealDescription: string;
+    type: string;
+    content: string;
+    description?: string;
     imageUrl: string;
     isCompleted?: boolean;
 }
@@ -22,14 +23,14 @@ const DietItem = (props: DietItemProps) => {
                 <Image source={{ uri: props.imageUrl }} className={`self-center rounded-lg ${expanded ? 'w-full h-48' : 'w-12 h-12 mr-3'}`} />
                 {expanded&&<View className="mt-4"/>}
                 <View className="justify-center flex-col flex-1">
-                    <Text variant="labelMedium">{props.mealType}</Text>
+                    <Text variant="labelMedium">{props.type}</Text>
                     <Text variant="labelSmall" className={`${expanded?'':'w-[50vw]'}`}>
-                        {props.mealDescription}
+                        {props.content}
                     </Text>
                 </View>
                 {expanded && (
                     <View className="mt-4">
-                        <Text variant="bodySmall">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Text>
+                        <Text variant="bodySmall">{props.description}</Text>
                         <View className="mt-4 flex-row justify-between">
                             <Button mode="contained" className="justify-center" onPress={() => { /* Mark as done logic */ }}>
                                 <Text variant="bodyMedium" className="text-white">Mark as done</Text>

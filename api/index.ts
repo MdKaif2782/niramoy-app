@@ -13,9 +13,6 @@ const baseQuery = fetchBaseQuery({
   credentials: "include",
   prepareHeaders: async (headers) => {
     const niramoyUserId = await AsyncStorage.getItem("niramoy_user_id");
-    if (niramoyUserId) {
-      headers.set("id", niramoyUserId);
-    }
     return headers;
   }
 });
@@ -34,7 +31,6 @@ const baseQueryWithId: BaseQueryFn<
 };
 
 export const api = createApi({
-  reducerPath: "api",
   baseQuery: baseQueryWithId,
   tagTypes: [],
   endpoints: (builder) => ({})
