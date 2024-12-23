@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Text, useTheme, Button, ProgressBar, ActivityIndicator } from "react-native-paper";
-import { View, Image, TouchableOpacity } from "react-native";
+import { View, Image, TouchableOpacity, Linking } from "react-native";
 import { Check, SquareCheckBig, Youtube } from "lucide-react-native";
 import { env } from "@/config/app.config";
 import { reFetchData } from "@/app/(tabs)";
+import { thumbnailToYtlink } from "@/utils/browser/browser";
 
 interface DietItemProps {
     type: string;
@@ -68,7 +69,10 @@ const DietItem = (props: DietItemProps) => {
                                 <Text variant="bodyMedium" className="text-white">Mark as done</Text>
                             </Button>}
                             {loading&&<ActivityIndicator size={20} className={"w-[38vw]"} color={colors.primary} />}
-                            <Button mode="outlined" onPress={() => { /* Watch the recipe on YouTube logic */ }}>Watch Video</Button>
+                            <Button mode="outlined" onPress={() => { 
+                                //open link in browser
+                                Linking.openURL(thumbnailToYtlink(props.imageUrl))
+                             }}>Watch Video</Button>
                         </View>
                     </View>
                 )}

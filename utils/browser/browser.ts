@@ -14,3 +14,9 @@ export function openInBrowser(url:string){
     const videoId = url.split("v=")[1];
     return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
   }
+
+  export function thumbnailToYtlink(url:string){
+    const videoEx = url.split("vi/")[1];
+    const videoId = videoEx.split("/maxresdefault.jpg")[0];
+    return `https://www.youtube.com/watch?v=${videoId}`;
+  }
