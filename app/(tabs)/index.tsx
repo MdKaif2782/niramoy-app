@@ -10,8 +10,14 @@ import { ytLinkToThumbnail } from "@/utils/browser/browser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AIQuery } from "@/modules/ai/models/ai.model";
 import { env } from "@/config/app.config";
+import { useGetLatestQuery } from "@/modules/ai/api/ai.api";
 export interface HomeUserState {
   name: string | null;
+}
+
+let reFetch: () => void;
+export const reFetchData = () => {
+  reFetch();
 }
 
 export default function HomeScreen() {
@@ -22,21 +28,35 @@ export default function HomeScreen() {
 
   //use axios to fetch data from the backend
   const [aiResponse, setAiResponse] = useState<AIQuery>();
+  const [refresh, setRefresh] = useState(0);
 
+  reFetch = async () => {
+    setRefresh((prev) => prev + 1);
+  };
+
+  
   useEffect(() => {
+    console.log("fetching data");
+    
     const fetchData = async () => {
       const userId = await getUserId();
-      console.log(userId);
-      console.log(`${env.apiUrl}latest/${userId}`);
-      
+    //  console.log(userId);
+    //   console.log(`${env.apiUrl}latest/${userId}`);
+  
       const response = await fetch(`${env.apiUrl}latest/${userId}`);
-      console.log(response);
-      
+      // console.log(response);
+  
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       setAiResponse(data);
-        };
-        fetchData();
+    };
+
+    fetchData();
+  
+  }, [refresh]);
+
+  useEffect(() => {
+    reFetch();
   }, []);
 
 
@@ -60,7 +80,7 @@ export default function HomeScreen() {
       <View className="py-10 px-5">
         <WelcomeUser name={user.name} />
 
-        <MoodCard />
+        <MoodCard mood={aiResponse?.mood}/>
 
         <View className="shadow-sm p-4 rounded-xl w-full h-fit flex-col bg-white shadow-black">
           <Text variant="labelLarge" style={{ color: colors.primary }}>
@@ -69,9 +89,12 @@ export default function HomeScreen() {
           {aiResponse?.diet_plan.meals.map((meal, index) => {
             return (
               <DietItem
+                id={meal.id}
                 key={index}
                 type={meal.type}
+                isCompleted={meal.completed}
                 content={meal.items}
+                contentType="meal"
                 description={meal.recipe_description}
                 imageUrl={ytLinkToThumbnail(meal.youtube_link)}
               />
@@ -87,7 +110,10 @@ export default function HomeScreen() {
           {aiResponse?.exercises.map((exercise, index) => {
             return (
               <DietItem
+                id={exercise.id}
                 key={index}
+                contentType="workout"
+                isCompleted={exercise.completed}
                 type={exercise.name}
                 content={exercise.category}
                 description={exercise.description}

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Text, useTheme, Button } from "react-native-paper";
+import { Text, useTheme, Button, ProgressBar, ActivityIndicator } from "react-native-paper";
 import { View, Image, TouchableOpacity } from "react-native";
 import { Check, SquareCheckBig, Youtube } from "lucide-react-native";
+import { env } from "@/config/app.config";
+import { reFetchData } from "@/app/(tabs)";
 
 interface DietItemProps {
     type: string;
@@ -9,13 +11,43 @@ interface DietItemProps {
     description?: string;
     imageUrl: string;
     isCompleted?: boolean;
+    id: number;
+    contentType: 'workout' | 'meal';
 }
 
 const DietItem = (props: DietItemProps) => {
     const { colors } = useTheme();
     const [expanded, setExpanded] = useState(false);
+    const [loading,setLoading] = useState(false)
 
     if (props.isCompleted === undefined) props.isCompleted = false;
+
+    const updateCompletion = () => {
+        setLoading(true)
+        // API call to update the completion
+        fetch(`${env.apiUrl}api/feedback/${props.contentType}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: props.id,
+                completed: true,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            reFetchData();
+            setExpanded(false);
+            setLoading(false)
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            reFetchData();
+        })
+
+    };
 
     return (
         <TouchableOpacity onPress={() => setExpanded(!expanded)}>
@@ -32,9 +64,10 @@ const DietItem = (props: DietItemProps) => {
                     <View className="mt-4">
                         <Text variant="bodySmall">{props.description}</Text>
                         <View className="mt-4 flex-row justify-between">
-                            <Button mode="contained" className="justify-center" onPress={() => { /* Mark as done logic */ }}>
+                            {!loading&&<Button  mode="contained" className="justify-center " onPress={() => { updateCompletion() }}>
                                 <Text variant="bodyMedium" className="text-white">Mark as done</Text>
-                            </Button>
+                            </Button>}
+                            {loading&&<ActivityIndicator size={20} className={"w-[38vw]"} color={colors.primary} />}
                             <Button mode="outlined" onPress={() => { /* Watch the recipe on YouTube logic */ }}>Watch Video</Button>
                         </View>
                     </View>

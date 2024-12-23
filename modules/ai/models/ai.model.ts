@@ -7,6 +7,7 @@ export interface AIQuery {
     ai_response: AiResponse
     exercises: Exercise[]
     diet_plan: DietPlan
+    mood?: Mood
   }
   
   export interface AiResponse {
@@ -23,6 +24,7 @@ export interface AIQuery {
     description: string
     category: string
     duration_minutes: number
+    completed: boolean
     youtube_link: string
     created_at: string
     response_id: number
@@ -44,6 +46,14 @@ export interface AIQuery {
     type: string
     items: string
     recipe_description: string
+    completed: boolean
     youtube_link: string
   }
   
+export interface Mood {
+  id: number
+  user_id: string
+  mood: string
+  responseId: number
+  date: string
+}
